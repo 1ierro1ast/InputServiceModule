@@ -24,9 +24,9 @@ namespace Codebase.Infrastructure.Services.Input
         public Vector3 MousePositionInViewport => GetMousePosition(PositionSpace.Viewport);
         public Vector3 MousePositionInWorld => GetMousePosition(PositionSpace.World);
 
-        public InputService(ICoroutineRunner coroutineRunner, IGameSettings gameSettingsService)
+        public InputService(ICoroutineRunner coroutineRunner, GameSettings gameSettings)
         {
-            _inputSettings = gameSettingsService.InputSettings;
+            _inputSettings = gameSettings.InputSettings;
             _waiting = new WaitForSeconds(_inputSettings.ObserverUpdateTime);
             coroutineRunner.StartCoroutine(InputObserveCoroutine());
         }
