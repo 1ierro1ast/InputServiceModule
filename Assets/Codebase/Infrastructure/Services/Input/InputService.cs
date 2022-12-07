@@ -19,14 +19,16 @@ namespace Codebase.Infrastructure.Services.Input
 
         public float HorizontalSpeed => UnityEngine.Input.GetAxis("Horizontal");
         public float VerticalSpeed => UnityEngine.Input.GetAxis("Vertical");
+        public float MouseX => UnityEngine.Input.GetAxis("Mouse X");
+        public float MouseY => UnityEngine.Input.GetAxis("Mouse Y");
 
         public Vector3 MousePositionInScreen => GetMousePosition();
         public Vector3 MousePositionInViewport => GetMousePosition(PositionSpace.Viewport);
         public Vector3 MousePositionInWorld => GetMousePosition(PositionSpace.World);
 
-        public InputService(ICoroutineRunner coroutineRunner, GameSettings gameSettings)
+        public InputService(ICoroutineRunner coroutineRunner, GameSettings gameSettingsService)
         {
-            _inputSettings = gameSettings.InputSettings;
+            _inputSettings = gameSettingsService.InputSettings;
             _waiting = new WaitForSeconds(_inputSettings.ObserverUpdateTime);
             coroutineRunner.StartCoroutine(InputObserveCoroutine());
         }
@@ -47,7 +49,12 @@ namespace Codebase.Infrastructure.Services.Input
             }
         }
 
-        private Vector3 GetMousePosition(PositionSpace positionSpace = PositionSpace.Screen)
+        public Vector3 ConvertPosition(PositionSpace from, PositionSpace to)
+        {
+            return Vector3.zero;
+        }
+
+        public Vector3 GetMousePosition(PositionSpace positionSpace = PositionSpace.Screen)
         {
             if(_camera == null) _camera = Camera.main;
             switch (positionSpace)
